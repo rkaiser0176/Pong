@@ -18,8 +18,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMove(to view: SKView) {
         physicsWorld.contactDelegate = self
-        let border = SKPhysicsBody(edgeLoopFrom: self.frame)
-        self.physicsBody = border
+        
+        let bottomLeft = CGPoint(x: frame.origin.x, y: frame.origin.y)
+        let bottomRight = CGPoint(x: -frame.origin.x, y: frame.origin.y)
+        let topLeft = CGPoint(x: frame.origin.x, y: -frame.origin.y)
+        let topRight = CGPoint(x: -frame.origin.x, y: -frame.origin.y)
+        
+        let bottom = SKNode()
+        bottom.name = "bottom"
+        bottom.physicsBody = SKPhysicsBody(edgeFrom: bottomLeft, to: bottomRight)
+        self.addChild(bottom)
+        
+        let top = SKNode()
+        top.name = "top"
+        top.physicsBody = SKPhysicsBody(edgeFrom: topLeft, to: topRight)
+        self.addChild(top)
+        
+        let right = SKNode()
+        right.name = "right"
+        right.physicsBody = SKPhysicsBody(edgeFrom: topRight, to: bottomRight)
+        self.addChild(right)
+        
+        let left = SKNode()
+        left.name = "left"
+        left.physicsBody = SKPhysicsBody(edgeFrom: topLeft, to: bottomLeft)
+        self.addChild(left)
+        
+        
         topPaddle = self.childNode(withName: "topPaddle") as! SKSpriteNode
         bottomPaddle = self.childNode(withName: "bottomPaddle") as! SKSpriteNode
         rightPaddle = self.childNode(withName: "rightPaddle") as! SKSpriteNode
