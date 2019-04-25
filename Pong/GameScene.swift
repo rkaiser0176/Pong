@@ -9,14 +9,24 @@
 import SpriteKit
 import GameplayKit
 
+let ballCatergory: UInt32 = 1 //0x1 >> 0
+let bottomCatergory: UInt32 = 2
+let topCatergory: UInt32 = 4
+let leftCatergory: UInt32 = 8
+let rightCatergory: UInt32 = 16
+let paddleCatergory: UInt32 = 32
+
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var topPaddle = SKSpriteNode()
     var leftPaddle = SKSpriteNode()
     var rightPaddle = SKSpriteNode()
     var bottomPaddle = SKSpriteNode()
+    var ball = SKSpriteNode()
+    
     
     override func didMove(to view: SKView) {
+        
         physicsWorld.contactDelegate = self
         
         let bottomLeft = CGPoint(x: frame.origin.x, y: frame.origin.y)
@@ -49,6 +59,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         bottomPaddle = self.childNode(withName: "bottomPaddle") as! SKSpriteNode
         rightPaddle = self.childNode(withName: "rightPaddle") as! SKSpriteNode
         leftPaddle = self.childNode(withName: "leftPaddle") as! SKSpriteNode
+        
+        top.physicsBody?.categoryBitMask = paddleCatergory
+        left.physicsBody?.categoryBitMask = paddleCatergory
+        right.physicsBody?.categoryBitMask = paddleCatergory
+        bottom.physicsBody?.categoryBitMask = paddleCatergory
+        
+        ball.physicsBody?.categoryBitMask = ballCatergory
+        
+        bottom.physicsBody?.contactTestBitMask = bottomCatergory
+        top.physicsBody?.contactTestBitMask = topCatergory
+        right.physicsBody?.contactTestBitMask = rightCatergory
+        left.physicsBody?.contactTestBitMask = leftCatergory
+        
+        ball.physicsBody?.contactTestBitMask = bottomCatergory|rightCatergory|leftCatergory|topCatergory|ballCatergory
+        
+        
     }
     func didBegin(_ contact: SKPhysicsContact) {
         print(contact.bodyA)
