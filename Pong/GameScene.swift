@@ -77,8 +77,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     func didBegin(_ contact: SKPhysicsContact) {
-        print(contact.bodyA)
-        print(contact.bodyB)
+       // print(contact.bodyA)
+       // print(contact.bodyB)
+        if contact.bodyA.categoryBitMask == bottomCatergory {
+            changePaddle(node: bottomPaddle)
+        } else if contact.bodyA.categoryBitMask == topCatergory {
+            changePaddle(node: topPaddle)
+        } else if contact.bodyA.categoryBitMask == rightCatergory {
+            changePaddle(node: rightPaddle)
+        } else if contact.bodyA.categoryBitMask == leftCatergory {
+            changePaddle(node: leftPaddle)
+        }
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch = touches.first!
@@ -95,6 +104,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         leftPaddle.run(SKAction.moveTo(y: location.x, duration: 0.2))
         rightPaddle.run(SKAction.moveTo(y: -location.x, duration: 0.2))
         bottomPaddle.run(SKAction.moveTo(x: -location.x, duration: 0.2))
+    }
+    
+    func changePaddle(node:SKSpriteNode){
+        if node.color == .yellow{
+            node.removeAllActions()
+            node.removeFromParent()
+        }
+        node.color = .yellow
     }
     
 }
